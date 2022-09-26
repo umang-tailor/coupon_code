@@ -15,6 +15,7 @@ const secret = require("./config/secret");
 // var usersRouter = require("./routes/users");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const directiveResolvers = require("./directives/isAuth");
+// const {isAuthorized,hasRole} = require("./directives/isAuth");
 const typeDefs = require("./controllers/schema");
 const resolvers = require("./controllers/resolvers");
 // var app = express();
@@ -66,8 +67,9 @@ const server = new ApolloServer({
     // console.log('userData :>> ', userData);
     return { userData };
   },
+  
 });
-// @hasRole(roles: [ADMIN])
+
 server.listen().then(({ url }) => {
   console.log(`STARTED at ${url}`);
 });

@@ -1,11 +1,10 @@
 module.exports = `
 directive @isAuthorized on FIELD | FIELD_DEFINITION
 directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
-directive @auth(
-   requires: userRole = ADMIN,
- ) on OBJECT | FIELD_DEFINITION
+
 
 scalar Date
+
  type CouponCode {
     coupon_code_id : Int
     expiry_date : Date
@@ -21,10 +20,8 @@ scalar Date
     discount_value:Int
     percentage_discount:Int
     flat_discount:Int
-    created_by:Int
-    
-    
  }
+
  input updateCode {
     coupon_code_id : Int
     expiry_date : Date
@@ -36,7 +33,7 @@ scalar Date
  }
  input EnableDisableCode {
     coupon_code_id : Int!
-    operation: Int
+    operation: String
  }
  input InputPagination {
     page: Int
@@ -52,8 +49,7 @@ scalar Date
   
  }
  type responseGetCouponCodeById {
-     status: Boolean
-     
+     status: Int
      message: String
      data: CouponCode
  }
@@ -62,8 +58,8 @@ scalar Date
     getAllCouponCode(data: InputPagination) : responseGetAllCouponCode
  }
  type Mutation {
-    createCouponCode(data: createCode) : responseGetCouponCodeById @isAuthorized  @auth(requires: ADMIN)
-    updateCouponCode(data: updateCode) : responseGetCouponCodeById @isAuthorized
+    createCouponCode(data:createCode) : responseGetCouponCodeById @isAuthorized @hasRole(role: ADMIN)
+    updateCouponCode(data:updateCode) : responseGetCouponCodeById @isAuthorized
     enableDisableCouponCode(data: EnableDisableCode) : responseGetCouponCodeById @isAuthorized
     deleteCouponCode(coupon_code_id : Int!) : responseGetCouponCodeById @isAuthorized
  }

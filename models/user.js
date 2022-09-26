@@ -6,5 +6,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM("ADMIN", "USER"),
     },
   });
+  users.associate = function (models) {
+    users.hasMany(models.coupon_code, {
+      foreignKey: "id",
+      as: "coupon_code",
+    });
+  };
   return users;
 };
